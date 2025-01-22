@@ -48,8 +48,8 @@ final class Pulsar
 
         $this->params = $this->getDatastarData();
 
-        $nonce = $this->params['wpPulsarNonce'] ?? null;
-        unset($this->params['wpPulsarNonce']);
+        $nonce = $this->params['pulsarNonce'] ?? null;
+        unset($this->params['pulsarNonce']);
 
         $this->validNonce($nonce);
 
@@ -64,7 +64,7 @@ final class Pulsar
 
     public function addNonceToFooter(): void
     {
-        echo '<div data-signals-wp-pulsar-nonce="\''.wp_create_nonce('pulsar_nonce').'\'" style="display: none !important;"></div>';
+        echo '<div data-signals-pulsar-nonce="\''.wp_create_nonce('pulsar_nonce').'\'" style="display: none !important;"></div>';
     }
 
     private function isDatastarRequest(): bool
@@ -95,7 +95,7 @@ final class Pulsar
     {
         $method = strtolower($_SERVER['REQUEST_METHOD']);
 
-        $_GET['datastar'] = json_decode(stripslashes($_GET['datastar']), true) ?? [];
+        $_GET['datastar'] = json_decode(stripslashes($_GET['datastar'] ?? ''), true) ?? [];
 
         return match ($method) {
             'get' => $_GET['datastar'],
