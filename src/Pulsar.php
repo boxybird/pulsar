@@ -40,8 +40,6 @@ final class Pulsar
 
     public function sendHeaders(): void
     {
-        global $wp;
-
         if (!$this->isDatastarRequest()) {
             return;
         }
