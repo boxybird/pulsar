@@ -6,10 +6,9 @@ Pulsar integrates Server-Sent Events (SSE) into WordPress using [Datastar](https
 
 ```
 cd wp-content/plugins
-```
-
-```
-composer require boxybird/pulsar
+git clone https://github.com/boxybird/pulsar
+cd pulsar
+composer install
 ```
 
 > Location: /wp-admin/plugins.php
