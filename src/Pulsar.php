@@ -10,6 +10,8 @@ final class Pulsar
 {
     private static ?self $instance = null;
 
+    private ?ServerSentEventGenerator $sse = null;
+
     private array $params;
 
     private ?string $request = null;
@@ -28,7 +30,9 @@ final class Pulsar
     public function __construct()
     {
         add_action('init', [$this, 'registerApiEndpoint']);
+        add_filter('redirect_canonical', [$this, 'redirectCanonical'], 10, 2);
         add_action('send_headers', [$this, 'sendHeaders']);
+        add_action('template_redirect', [$this, 'templateRedirect']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue']);
         add_action('wp_footer', [$this, 'addNonceToFooter']);
     }
@@ -36,6 +40,16 @@ final class Pulsar
     public function registerApiEndpoint(): void
     {
         add_rewrite_rule(self::MATCHED_RULE_PATTERN, 'index.php', 'top');
+    }
+
+    public function redirectCanonical($redirect_url, $requested_url): string
+    {
+        if (!$this->isDatastarRequest()) {
+            return $redirect_url;
+        }
+
+        // Remove the trailing slash from $requested_url to prevent unnecessary 301 redirect
+        return rtrim($requested_url, '/');
     }
 
     public function sendHeaders(): void
@@ -51,8 +65,17 @@ final class Pulsar
 
         $this->validNonce($nonce);
 
-        $this->handleActions();
+        $this->sse = new ServerSentEventGenerator();
+        $this->sse->sendHeaders();
+    }
 
+    public function templateRedirect(): void
+    {
+        if (!$this->isDatastarRequest()) {
+            return;
+        }
+
+        $this->handleActions();
     }
 
     public function enqueue(): void
@@ -107,10 +130,7 @@ final class Pulsar
         $handle = explode('@', $this->request)[1] ?? null;
         $hook_name = "pulsar/{$method}".($handle ? "@{$handle}" : '');
 
-        $sse = new ServerSentEventGenerator();
-        $sse->sendHeaders();
-
-        do_action($hook_name, $sse, $this->params);
+        do_action($hook_name, $this->sse, $this->params);
 
         exit;
     }
