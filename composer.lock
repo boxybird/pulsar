@@ -1,0 +1,71 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "69ef3a4a1a4f11e0aff8d6c049e3cbb6",
+    "packages": [
+        {
+            "name": "starfederation/datastar-php",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/starfederation/datastar-php.git",
+                "reference": "30452073e3d071e4625f497146c5e65b7c36c690"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/starfederation/datastar-php/zipball/30452073e3d071e4625f497146c5e65b7c36c690",
+                "reference": "30452073e3d071e4625f497146c5e65b7c36c690",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "craftcms/ecs": "dev-main",
+                "craftcms/phpstan": "dev-main",
+                "pestphp/pest": "^3.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "starfederation\\datastar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Croker",
+                    "homepage": "https://putyourlightson.com/",
+                    "role": "Author"
+                }
+            ],
+            "description": "A PHP SDK for working with Datastar.",
+            "support": {
+                "docs": "https://github.com/starfederation/datastar-php",
+                "issues": "https://github.com/starfederation/datastar-php/issues",
+                "source": "https://github.com/starfederation/datastar-php"
+            },
+            "time": "2025-01-21T22:43:41+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "starfederation/datastar-php": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=8.2"
+    },
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
+}

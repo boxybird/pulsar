@@ -1,0 +1,27 @@
+{
+  "name": "boxybird/pulsar",
+  "description": "Pulsar integrates Server-Sent Events (SSE) into WordPress using Datastar, enabling real-time data streaming.",
+  "license": "MIT",
+  "keywords": [
+    "WordPress",
+    "Datastar",
+    "plugin",
+    "server-sent events",
+    "PHP"
+  ],
+  "authors": [
+    {
+      "name": "Andrew Rhyand",
+      "email": "andrew.rhyand@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.2",
+    "starfederation/datastar-php": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "BoxyBird\\Pulsar\\": "src/"
+    }
+  }
+}
