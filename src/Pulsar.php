@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace BoxyBird\Pulsar;
 
-use starfederation\datastar\ServerSentEventGenerator;
-
 final class Pulsar
 {
     private static ?self $instance = null;
 
     private ?ServerSentEventGenerator $sse = null;
 
-    private array $params;
-
     private ?string $request = null;
 
     private const MATCHED_RULE_PATTERN = 'pulsar/v1/handle(@[a-zA-Z_-]+)?$';
+
+    private const NONCE_NAME = 'pulsar_nonce';
 
     public static function init(): self
     {
@@ -34,7 +32,6 @@ final class Pulsar
         add_action('send_headers', [$this, 'sendHeaders']);
         add_action('template_redirect', [$this, 'templateRedirect']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue']);
-        add_action('wp_footer', [$this, 'addNonceToFooter']);
     }
 
     public function registerApiEndpoint(): void
@@ -58,12 +55,7 @@ final class Pulsar
             return;
         }
 
-        $this->params = $this->getDatastarData();
-
-        $nonce = $this->params['pulsarNonce'] ?? null;
-        unset($this->params['pulsarNonce']);
-
-        $this->validNonce($nonce);
+        $this->validNonce();
 
         $this->sse = new ServerSentEventGenerator();
         $this->sse->sendHeaders();
@@ -80,12 +72,12 @@ final class Pulsar
 
     public function enqueue(): void
     {
-        wp_enqueue_script_module('pulsar-datastar-script', 'https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.2/bundles/datastar.js', [], null, true);
-    }
+        wp_enqueue_script('pulsar-script', plugins_url('/../js/pulsar.js', __FILE__), [], null, true);
+        wp_enqueue_script_module('pulsar-datastar-script', 'https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.2/bundles/datastar.js', ['pulsar-script'], null, true);
 
-    public function addNonceToFooter(): void
-    {
-        echo '<div data-signals-pulsar-nonce="\''.wp_create_nonce('pulsar_nonce').'\'" style="display: none !important;"></div>';
+        wp_localize_script('pulsar-script', 'pulsarData', [
+            'nonce' => wp_create_nonce(self::NONCE_NAME),
+        ]);
     }
 
     private function isDatastarRequest(): bool
@@ -102,9 +94,9 @@ final class Pulsar
     }
 
 
-    private function validNonce(?string $nonce = null): void
+    private function validNonce(): void
     {
-        if (wp_verify_nonce($nonce, 'pulsar_nonce')) {
+        if (wp_verify_nonce($_SERVER['HTTP_PULSE_NONCE'] ?? -1, self::NONCE_NAME)) {
             return;
         }
 
@@ -130,7 +122,7 @@ final class Pulsar
         $handle = explode('@', $this->request)[1] ?? null;
         $hook_name = "pulsar/{$method}".($handle ? "@{$handle}" : '');
 
-        do_action($hook_name, $this->sse, $this->params);
+        do_action($hook_name, $this->sse, $this->getDatastarData());
 
         exit;
     }
