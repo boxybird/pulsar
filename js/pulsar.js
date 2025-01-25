@@ -1,19 +1,21 @@
-// Current Datastar does not have set header globally
-// for all actions. I'm adding a WP nonce to request
-// if the fetch originator is Datastar.
-let originalFetch = window.fetch
+// Current Datastar does not have a way to set headers
+// globally for all actions. I'm adding a WP nonce
+// to request if the fetch originator is Datastar.
+(function () {
+  const originalFetch = window.fetch
 
-window.fetch = function () {
-  if (!arguments[1].headers || arguments[1].headers['Datastar-Request'] !== true) {
-    return originalFetch.apply(this, arguments)
-  }
+  window.fetch = function (url, options = {}) {
+    let isDatastarRequest = !!options.headers['Datastar-Request']
 
-  arguments[1] = {
-    ...arguments[1], headers: {
-      ...arguments[1]?.headers,
+    if (!isDatastarRequest) {
+      return originalFetch(url, options)
+    }
+
+    const headers = {
       'Pulse-Nonce': pulsarData.nonce, // pulsarData uses wp_localize_script()
-    },
-  }
+    }
 
-  return originalFetch.apply(this, arguments)
-}
+    options.headers = { ...headers, ...options.headers }
+    return originalFetch(url, options)
+  }
+})()
