@@ -72,7 +72,7 @@ final class Pulsar
 
     public function enqueue(): void
     {
-        wp_enqueue_script('pulsar-script', plugins_url('/../js/pulsar.js', __FILE__), [], null, true);
+        wp_enqueue_script('pulsar-script', PULSAR_URL.'js/pulsar.js', [], null, true);
         wp_enqueue_script_module('pulsar-datastar-script', 'https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.2/bundles/datastar.js', ['pulsar-script'], null, true);
 
         wp_localize_script('pulsar-script', 'pulsarData', [

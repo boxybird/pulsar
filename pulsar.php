@@ -19,6 +19,8 @@ if (!file_exists(__DIR__.'/vendor/autoload.php')) {
     exit('Please run "composer install" in the plugin directory before activating the plugin.');
 }
 
+define('PULSAR_URL', plugin_dir_url(__FILE__));
+
 require_once __DIR__.'/vendor/autoload.php';
 
 BoxyBird\Pulsar\Pulsar::init();
