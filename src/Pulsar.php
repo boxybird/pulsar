@@ -104,25 +104,13 @@ final class Pulsar
         exit;
     }
 
-    private function getDatastarData(): array
-    {
-        $method = strtolower($_SERVER['REQUEST_METHOD']);
-
-        $_GET['datastar'] = json_decode(stripslashes($_GET['datastar'] ?? ''), true) ?? [];
-
-        return match ($method) {
-            'get' => $_GET['datastar'],
-            default => json_decode(file_get_contents('php://input') ?? '{}', true) ?? [],
-        };
-    }
-
     private function handleActions(): void
     {
         $method = strtolower($_SERVER['REQUEST_METHOD']);
         $handle = explode('@', $this->request)[1] ?? null;
         $hook_name = "pulsar/{$method}".($handle ? "@{$handle}" : '');
 
-        do_action($hook_name, $this->sse, $this->getDatastarData());
+        do_action($hook_name, $this->sse, $this->sse::readSignals());
 
         exit;
     }
