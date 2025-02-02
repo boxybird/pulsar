@@ -199,7 +199,7 @@ final class Pulsar
             $fragments[] = $dom->saveHTML($include);
         }
 
-        $fragments[] = $dom->saveHTML($dom->getElementById('pulsar-mount'));
+        $fragments[] = $dom->saveHTML($dom->getElementById('pulsar-root'));
 
         $this->sse->mergeFragments(implode('', $fragments));
         $this->sse->mergeSignals($signals);
