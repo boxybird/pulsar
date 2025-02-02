@@ -41,8 +41,10 @@ add_action('wp_enqueue_scripts', function () {
 ## Usage
 
 ```HTML
-<button data-on-click="@get('/pulsar/v1/my-hook')">GET REQUEST</button>
-<div id="random"></div>
+<div id="pulsar-mount">
+    <button data-on-click="@get('/pulsar/v1/my-hook')">GET REQUEST</button>
+    <div id="random"></div>
+</div>    
 ```
 
 ```PHP
@@ -54,8 +56,10 @@ add_action('pulsar/get/my-hook', function (starfederation\datastar\ServerSentEve
 ---
 
 ```HTML
-<button data-on-click="@get('/pulsar/v1/my-other-hook')">GET REQUEST - @FOOBAR</button>
-<div id="random"></div>
+<div id="pulsar-mount">
+    <button data-on-click="@get('/pulsar/v1/my-other-hook')">GET REQUEST - @FOOBAR</button>
+    <div id="random"></div>
+</div>
 ```
 
 ```PHP
@@ -67,8 +71,10 @@ add_action('pulsar/get/my-other-hook', function (starfederation\datastar\ServerS
 ---
 
 ```HTML
-<button data-on-click="@post('/pulsar/v1/my-hook')">POST REQUEST</button>
-<div id="random"></div>
+<div id="pulsar-mount">
+    <button data-on-click="@post('/pulsar/v1/my-hook')">POST REQUEST</button>
+    <div id="random"></div>
+</div>
 ```
 
 ```PHP
@@ -84,9 +90,11 @@ add_action('pulsar/post/my-hook', function (starfederation\datastar\ServerSentEv
 ---
 
 ```HTML
-<button data-on-click="@put('/pulsar/v1/my-hook')">PUT</button>
-<button data-on-click="@patch('/pulsar/v1/my-hook')">PATCH</button>
-<button data-on-click="@delete('/pulsar/v1/my-hook')">DELETE</button>
+<div id="pulsar-mount">
+    <button data-on-click="@put('/pulsar/v1/my-hook')">PUT</button>
+    <button data-on-click="@patch('/pulsar/v1/my-hook')">PATCH</button>
+    <button data-on-click="@delete('/pulsar/v1/my-hook')">DELETE</button>
+</div>
 ```
 
 ```PHP
