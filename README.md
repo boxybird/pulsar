@@ -10,6 +10,12 @@ git clone https://github.com/boxybird/pulsar
 cd pulsar
 composer install
 ```
+> Location: /wp-config.php
+
+```php
+define('PULSAR_ENCRYPTION_KEY', 'SOME_RANDOM_16_CHARACTER_STRING');
+```
+
 
 > Location: /wp-admin/plugins.php
 
@@ -35,12 +41,12 @@ add_action('wp_enqueue_scripts', function () {
 ## Usage
 
 ```HTML
-<button data-on-click="@get('/pulsar/v1/handle')">GET REQUEST</button>
+<button data-on-click="@get('/pulsar/v1/my-hook')">GET REQUEST</button>
 <div id="random"></div>
 ```
 
 ```PHP
-add_action('pulsar/get', function (starfederation\datastar\ServerSentEventGenerator $sse, array $params) {
+add_action('pulsar/get/my-hook', function (starfederation\datastar\ServerSentEventGenerator $sse, array $params) {
     $sse->mergeFragments('<div id="random">'.random_int(1, 10000).'</div>');
 }, 10, 2);
 ```
@@ -48,12 +54,12 @@ add_action('pulsar/get', function (starfederation\datastar\ServerSentEventGenera
 ---
 
 ```HTML
-<button data-on-click="@get('/pulsar/v1/handle@foobar')">GET REQUEST - @FOOBAR</button>
+<button data-on-click="@get('/pulsar/v1/my-other-hook')">GET REQUEST - @FOOBAR</button>
 <div id="random"></div>
 ```
 
 ```PHP
-add_action('pulsar/get@foobar', function (starfederation\datastar\ServerSentEventGenerator $sse, array $params) {
+add_action('pulsar/get/my-other-hook', function (starfederation\datastar\ServerSentEventGenerator $sse, array $params) {
     $sse->mergeFragments('<div id="random">'.random_int(1, 10000).'</div>');
 }, 10, 2);
 ```
@@ -61,12 +67,12 @@ add_action('pulsar/get@foobar', function (starfederation\datastar\ServerSentEven
 ---
 
 ```HTML
-<button data-on-click="@post('/pulsar/v1/handle')">POST REQUEST</button>
+<button data-on-click="@post('/pulsar/v1/my-hook')">POST REQUEST</button>
 <div id="random"></div>
 ```
 
 ```PHP
-add_action('pulsar/post', function (starfederation\datastar\ServerSentEventGenerator $sse, array $params) {
+add_action('pulsar/post/my-hook', function (starfederation\datastar\ServerSentEventGenerator $sse, array $params) {
     for ($i = 0; $i < 10; $i++) {
         $sse->mergeFragments('<div id="random">'.random_int(1, 10000).'</div>');
 
@@ -78,15 +84,15 @@ add_action('pulsar/post', function (starfederation\datastar\ServerSentEventGener
 ---
 
 ```HTML
-<button data-on-click="@put('/pulsar/v1/handle')">PUT</button>
-<button data-on-click="@patch('/pulsar/v1/handle')">PATCH</button>
-<button data-on-click="@delete('/pulsar/v1/handle')">DELETE</button>
+<button data-on-click="@put('/pulsar/v1/my-hook')">PUT</button>
+<button data-on-click="@patch('/pulsar/v1/my-hook')">PATCH</button>
+<button data-on-click="@delete('/pulsar/v1/my-hook')">DELETE</button>
 ```
 
 ```PHP
-add_action('pulsar/put', ...);
-add_action('pulsar/patch', ...);
-add_action('pulsar/delete', ...);
+add_action('pulsar/put/my-hook', ...);
+add_action('pulsar/patch/my-hook', ...);
+add_action('pulsar/delete/my-hook', ...);
 ```
 
 ## Reference

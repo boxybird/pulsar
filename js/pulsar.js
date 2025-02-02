@@ -12,7 +12,7 @@
     }
 
     const headers = {
-      'Pulse-Nonce': pulsarData.nonce, // pulsarData uses wp_localize_script()
+      'Pulsar-Data': JSON.stringify(pulsarData), // pulsarData uses wp_localize_script()
     }
 
     options.headers = { ...headers, ...options.headers }
