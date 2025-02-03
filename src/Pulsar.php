@@ -102,7 +102,7 @@ final class Pulsar
         $this->validNonce();
 
         $this->sse = new ServerSentEventGenerator();
-        $this->sse->sendHeaders();
+        $this->sse->headers();
     }
 
     private function validNonce(): void
@@ -201,7 +201,10 @@ final class Pulsar
 
         $fragments[] = $dom->saveHTML($dom->getElementById('pulsar-root'));
 
-        $this->sse->mergeFragments(implode('', $fragments));
+        $this->sse->mergeFragments(implode('', $fragments), [
+            'useViewTransition' => true,
+        ]);
+
         $this->sse->mergeSignals($signals);
 
         wp_reset_postdata();

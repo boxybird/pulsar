@@ -754,12 +754,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/starfederation/datastar-php.git",
-                "reference": "30452073e3d071e4625f497146c5e65b7c36c690"
+                "reference": "e69167e029936d48017e06605ee6f0228baefcbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/starfederation/datastar-php/zipball/30452073e3d071e4625f497146c5e65b7c36c690",
-                "reference": "30452073e3d071e4625f497146c5e65b7c36c690",
+                "url": "https://api.github.com/repos/starfederation/datastar-php/zipball/e69167e029936d48017e06605ee6f0228baefcbd",
+                "reference": "e69167e029936d48017e06605ee6f0228baefcbd",
                 "shasum": ""
             },
             "require": {
@@ -794,7 +794,7 @@
                 "issues": "https://github.com/starfederation/datastar-php/issues",
                 "source": "https://github.com/starfederation/datastar-php"
             },
-            "time": "2025-01-21T22:43:41+00:00"
+            "time": "2025-02-02T01:50:44+00:00"
         },
         {
             "name": "symfony/clock",
